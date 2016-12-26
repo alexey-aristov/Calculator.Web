@@ -1,1 +1,1 @@
-Available at [calculator.aristov.me](calculator.aristov.me)
+Available at [calculator.aristov.me](http://calculator.aristov.me)
