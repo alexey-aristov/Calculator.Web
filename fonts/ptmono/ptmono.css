@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'PT Mono';
+    src: local('PT Mono'), local('PTMono-Regular'), url('ptmono.woff2') format('woff2'), url('ptmono.woff') format('woff'), url('ptmono.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'PT Mono';
+    src: local('PT Mono Bold'), local('PTMono-Bold'), url('ptmonobold.woff2') format('woff2'), url('ptmonobold.woff') format('woff'), url('ptmonobold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
