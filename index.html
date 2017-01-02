@@ -7,14 +7,20 @@
     <script src="https://code.jquery.com/jquery-3.1.1.js" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-    <script src="script/main.js"></script>
+    <script src="script/WeelEventListener.js"></script>
+    <script src="script/PageScroll.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#home').pageScroll({});
+        });
+    </script>
 </head>
 <body>
 <div id="home">
-    <div class="page page-white bearing_height">
+    <div class="pageScroll-page page-white bearing_height">
         <h1 class="name-header">Calculator A</h1>
     </div>
-    <div class="page page-black">
+    <div class="pageScroll-page page-black">
         <div class="row screen-container">
             <div class="col-md-2"></div>
             <div class="col-md-8">
@@ -34,7 +40,7 @@
         </div>
 
     </div>
-    <div class="page page-white">
+    <div class="pageScroll-page page-white">
         <div class="contacts"><a href="mailto:alexey0206+calculator@gmail.com">Mail me!</a></div>
     </div>
 </div>
