@@ -17,6 +17,7 @@
     var PAGE_CLASS_ACTIVE = "pageScroll-page-active";
     var KEYBOARD_UP = 38;
     var KEYBOARD_DOWN = 40;
+    var TOUCH_THRESHOLD = 200;
     var Body = $('html, body');
 
 
@@ -26,6 +27,7 @@
         var _position = 0;
         var _pages;
         var _isScrollAnimationInProgress = false;
+        var _touchYStart = 0;
 
         init(this);
 
@@ -40,7 +42,7 @@
                     order: num
                 }
             });
-            element.wrapInner('<div class="'+CONTAINER_WRAPPER_CLASS+'"></div>');
+            element.wrapInner('<div class="' + CONTAINER_WRAPPER_CLASS + '"></div>');
             _container = element.children("." + CONTAINER_WRAPPER_CLASS);
             var activePages = _.filter(_pages, function (val) {
                 return val.value.hasClass(PAGE_CLASS_ACTIVE);
@@ -60,18 +62,44 @@
                     moveNext();
                 }
             });
-            window.addWheelListener(Body[0],function(e){
+            window.addWheelListener(Body[0], function (e) {
                 e.preventDefault();
-                if (e.deltaY>0)
-                {
+                if (e.deltaY > 0) {
                     moveNext();
                 }
-                else
-                {
+                else {
                     movePrevious();
                 }
             });
+
+            _container.on('touchstart', function (e) {
+                e.preventDefault();
+                console.info({t: 'touchstart', v: e.originalEvent});
+                _touchYStart = getTouchCoordinates(e).y;
+            });
+            _container.on('touchend', function (e) {
+                e.preventDefault();
+                console.info({t: 'touchend', v: e.originalEvent});
+            });
+            _container.on('touchmove', function (e) {
+                e.preventDefault();
+                console.info({t: 'touchmove', v: e.originalEvent});
+                var coord = getTouchCoordinates(e);
+                var delta = coord.y - _touchYStart;
+                if (_touchYStart>0 && Math.abs(delta) > TOUCH_THRESHOLD) {
+                    delta > 0 ? movePrevious() : moveNext();
+                    _touchYStart=0;
+                }
+            });
             moveToAndSetPosition(_pages[0]);
+        }
+
+        function getTouchCoordinates(e) {
+            var coordinates = {
+                y: e.originalEvent.touches[0].pageY,
+                x: e.originalEvent.touches[0].pageX
+            };
+            return coordinates;
         }
 
         function moveNext() {

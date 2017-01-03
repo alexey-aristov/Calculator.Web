@@ -5,7 +5,7 @@
     display: block;
 }
 .pageScroll-containerWrapper{
-    overflow-y:scroll;
+    overflow-y:visible;
 }
 .pageScroll-page{
     position: relative;
