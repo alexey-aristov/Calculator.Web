@@ -11,6 +11,7 @@
     }
 })(typeof window !== 'undefined' ? window : this, function ($, window, document, undefined) {
     'use strict';
+
     var CONTAINER_CLASS = "pageScroll-container";
     var CONTAINER_WRAPPER_CLASS = "pageScroll-containerWrapper";
     var PAGE_CLASS = "pageScroll-page";
@@ -20,19 +21,27 @@
     var TOUCH_THRESHOLD = 200;
     var Body = $('html, body');
 
-
     $.fn.pageScroll = function (options) {
-        var _currentPosition = 0;
-        var _container;
-        var _position = 0;
-        var _pages;
-        var _isScrollAnimationInProgress = false;
-        var _touchYStart = 0;
+        var _pageScroll = PageScroll(this, options);
+    };
 
-        init(this);
+    function PageScroll(element, options) {
+        var _touchYStart = 0;
+        var _id;
+        var _pages;
+        var _container;
+        var _currentPosition = 0;
+        var _isScrollAnimationInProgress = false;
+        var self = {
+            Id: _id,
+            MoveNext: moveNext,
+            MovePrevious: movePrevious
+        };
+
+        init(element);
 
         function init(element) {
-
+            _id = element.attr('id');
             if (!element.hasClass(CONTAINER_CLASS)) {
                 element.addClass(CONTAINER_CLASS);
             }
@@ -52,7 +61,7 @@
             }
             if (activePages.length > 1)
                 console.error("multiple active pages");
-            Body.keydown(function (event) {
+            Body.keydown(function (event) {//todo: handle for different instances
                 if (event.which == KEYBOARD_UP) {
                     event.preventDefault();
                     movePrevious();
@@ -62,33 +71,59 @@
                     moveNext();
                 }
             });
-            window.addWheelListener(Body[0], function (e) {
-                e.preventDefault();
-                if (e.deltaY > 0) {
-                    moveNext();
-                }
-                else {
-                    movePrevious();
-                }
-            });
 
+            if (typeof(PageScroll.GlobalWeelListenerSet) === 'undefined') {
+                PageScroll.GlobalWeelListenerSet = window.addWheelListener(Body[0], function (e) {
+                    e.preventDefault();
+                    var last = _.last(PageScroll.ScrollElementsStack);
+                    if (last == null)
+                        return;
+                    if (e.deltaY > 0) {
+                        last.MoveNext();
+                    }
+                    else {
+                        last.MovePrevious();
+                    }
+                });
+            }
+            if (typeof(PageScroll.ScrollElementsStack) === 'undefined') {
+                PageScroll.ScrollElementsStack = new Array();
+            }
+            if (typeof(PageScroll.TouchEvenStatus) === 'undefined') {
+                PageScroll.TouchEvenStatus = {Status: false, Element: self};
+            }
+
+            _container.on('mouseenter', function (e) {
+                e.preventDefault();
+                PageScroll.ScrollElementsStack.push(self);
+            });
+            _container.on('mouseleave', function (e) {
+                e.preventDefault();
+                PageScroll.ScrollElementsStack.pop();
+            });
             _container.on('touchstart', function (e) {
                 e.preventDefault();
-                console.info({t: 'touchstart', v: e.originalEvent});
                 _touchYStart = getTouchCoordinates(e).y;
+                PageScroll.TouchEvenStatus.Element = self;
+                PageScroll.TouchEvenStatus.Status = true;
             });
             _container.on('touchend', function (e) {
                 e.preventDefault();
-                console.info({t: 'touchend', v: e.originalEvent});
+                PageScroll.TouchEvenStatus.Status = false;
             });
             _container.on('touchmove', function (e) {
                 e.preventDefault();
-                console.info({t: 'touchmove', v: e.originalEvent});
                 var coord = getTouchCoordinates(e);
                 var delta = coord.y - _touchYStart;
-                if (_touchYStart>0 && Math.abs(delta) > TOUCH_THRESHOLD) {
+
+                if (PageScroll.TouchEvenStatus.Status == true
+                    && PageScroll.TouchEvenStatus.Element.Id == self.Id
+                    && _touchYStart > 0
+                    && Math.abs(delta) > TOUCH_THRESHOLD) {
+
                     delta > 0 ? movePrevious() : moveNext();
-                    _touchYStart=0;
+                    _touchYStart = 0;
+                    PageScroll.TouchEvenStatus.Status = false;
                 }
             });
             moveToAndSetPosition(_pages[0]);
@@ -137,5 +172,7 @@
                 'transition': 'all 1000ms ease'
             };
         }
-    };
+
+        return self;
+    }
 });

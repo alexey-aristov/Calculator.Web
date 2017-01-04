@@ -22,6 +22,11 @@
 .page-black{
     background-color: black;
 }
+#screens{
+    padding-left: 20%;
+    padding-right: 20%;
+    padding-top: 10%;
+}
 .name-header{
     font-family:PT Mono;
     margin:0;

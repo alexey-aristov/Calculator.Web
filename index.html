@@ -10,8 +10,9 @@
     <script src="script/WeelEventListener.js"></script>
     <script src="script/PageScroll.js"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#home').pageScroll({});
+            $('#screens').pageScroll({});
         });
     </script>
 </head>
@@ -21,24 +22,17 @@
         <h1 class="name-header">Calculator A</h1>
     </div>
     <div class="pageScroll-page page-black">
-        <div class="row screen-container">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
-                <div class="row">
-                    <div class="col-md-4 screen-holder">
-                        <img class="screen" src="images/screen1.jpg">
-                    </div>
-                    <div class="col-md-4">
-                        <img class="screen" src="images/screen2.jpg">
-                    </div>
-                    <div class="col-md-4">
-                        <img class="screen" src="images/screen3.jpg">
-                    </div>
+            <div id="screens">
+                <div class="pageScroll-page screen-holder">
+                    <img class="screen" src="images/screen1.jpg">
+                </div>
+                <div class="pageScroll-page">
+                    <img class="screen" src="images/screen2.jpg">
+                </div>
+                <div class="pageScroll-page">
+                    <img class="screen" src="images/screen3.jpg">
                 </div>
             </div>
-            <div class="col-md-2"></div>
-        </div>
-
     </div>
     <div class="pageScroll-page page-white">
         <div class="contacts"><a href="mailto:alexey0206+calculator@gmail.com">Mail me!</a></div>

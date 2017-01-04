@@ -24,6 +24,7 @@
         if( support == "DOMMouseScroll" ) {
             _addWheelListener( elem, "MozMousePixelScroll", callback, useCapture );
         }
+        return true;
     };
 
     function _addWheelListener( elem, eventName, callback, useCapture ) {
