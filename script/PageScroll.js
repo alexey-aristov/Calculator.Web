@@ -59,25 +59,10 @@
                     order: num
                 }
             });
-            if (_options.ScrollOrientation == ScrollOrientationType.Horizontal) {
-                var pagesCount = _pages.length;
-                _pages.forEach(function (val) {
-                    var parentWidth = val.value.parent().width();
-
-                    val.value.css({
-                        'float': 'left',
-                        'width': parentWidth
-                    });
-                });
-            }
 
             element.wrapInner('<div class="' + CONTAINER_WRAPPER_CLASS + '"></div>');
             _container = element.children("." + CONTAINER_WRAPPER_CLASS);
-            if (_options.ScrollOrientation == ScrollOrientationType.Horizontal)
-                var horizontalPageWidth = element.width() * pagesCount;
-            _container.css({
-                'width': horizontalPageWidth
-            });
+
             var activePages = _.filter(_pages, function (val) {
                 return val.value.hasClass(PAGE_CLASS_ACTIVE);
             });
@@ -168,12 +153,36 @@
 
             if (_options.PageNavigation == null) {
                 _pageNavigation = {
-                    MoveNext: function () {},
-                    MovePrevious: function () {}
+                    MoveNext: function () {
+                    },
+                    MovePrevious: function () {
+                    }
                 }
             } else {
                 _pageNavigation = _options.PageNavigation;
             }
+            setupWidth();
+            $(window).resize(setupWidth);
+        }
+
+        function setupWidth() {
+            if (_options.ScrollOrientation == ScrollOrientationType.Horizontal) {
+                var pagesCount = _pages.length;
+                var width = element.width();
+                _pages.forEach(function (val) {
+                    //var parentWidth = element.width();
+
+                    val.value.css({
+                        'float': 'left',
+                        'width': width
+                    });
+                });
+                var horizontalPageWidth = width * pagesCount;
+                _container.css({
+                    'width': horizontalPageWidth
+                });
+            }
+            moveToAndSetPosition(_pages[_currentPosition]);
         }
 
         function getTouchCoordinates(e) {
@@ -233,7 +242,8 @@
                 'transition': 'all 1000ms ease'
             };
         }
-        function setPage(number){
+
+        function setPage(number) {
             moveToAndSetPosition(_pages[number]);
         }
 
