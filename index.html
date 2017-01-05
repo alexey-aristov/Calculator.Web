@@ -12,7 +12,9 @@
     <script type="text/javascript">
         $(document).ready(function () {
             $('#home').pageScroll({});
-            $('#screens').pageScroll({});
+            $('#screenshots').pageScroll({
+                ScrollOrientation: 'Horizontal'
+            });
         });
     </script>
 </head>
@@ -22,17 +24,17 @@
         <h1 class="name-header">Calculator A</h1>
     </div>
     <div class="pageScroll-page page-black">
-            <div id="screens">
-                <div class="pageScroll-page screen-holder">
-                    <img class="screen" src="images/screen1.jpg">
-                </div>
-                <div class="pageScroll-page">
-                    <img class="screen" src="images/screen2.jpg">
-                </div>
-                <div class="pageScroll-page">
-                    <img class="screen" src="images/screen3.jpg">
-                </div>
+        <div id="screenshots">
+            <div class="pageScroll-page">
+                <img class="screenshot" src="images/screen1.jpg" align="middle">
             </div>
+            <div class="pageScroll-page">
+                <img class="screenshot" src="images/screen2.jpg">
+            </div>
+            <div class="pageScroll-page">
+                <img class="screenshot" src="images/screen3.jpg">
+            </div>
+        </div>
     </div>
     <div class="pageScroll-page page-white">
         <div class="contacts"><a href="mailto:alexey0206+calculator@gmail.com">Mail me!</a></div>

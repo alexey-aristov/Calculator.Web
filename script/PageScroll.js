@@ -20,13 +20,16 @@
     var KEYBOARD_DOWN = 40;
     var TOUCH_THRESHOLD = 200;
     var Body = $('html, body');
+    var ScrollOrientationType = Object.freeze({Vertical: 'Vertical', Horizontal: 'Horizontal'});
 
     $.fn.pageScroll = function (options) {
         var _pageScroll = PageScroll(this, options);
     };
 
     function PageScroll(element, options) {
+
         var _touchYStart = 0;
+        var _touchXStart = 0;
         var _id;
         var _pages;
         var _container;
@@ -37,6 +40,7 @@
             MoveNext: moveNext,
             MovePrevious: movePrevious
         };
+        var _options = options;
 
         init(element);
 
@@ -45,14 +49,32 @@
             if (!element.hasClass(CONTAINER_CLASS)) {
                 element.addClass(CONTAINER_CLASS);
             }
+
             _pages = _.map(element.children('.' + PAGE_CLASS), function (val, num) {
                 return {
                     value: $(val),
                     order: num
                 }
             });
+            if (_options.ScrollOrientation == ScrollOrientationType.Horizontal) {
+                var pagesCount = _pages.length;
+                _pages.forEach(function (val) {
+                    var parentWidth = val.value.parent().width();
+
+                    val.value.css({
+                        'float': 'left',
+                        'width': parentWidth
+                    });
+                });
+            }
+
             element.wrapInner('<div class="' + CONTAINER_WRAPPER_CLASS + '"></div>');
             _container = element.children("." + CONTAINER_WRAPPER_CLASS);
+            if (_options.ScrollOrientation == ScrollOrientationType.Horizontal)
+                var horizontalPageWidth = element.width() * pagesCount;
+            _container.css({
+                'width': horizontalPageWidth
+            });
             var activePages = _.filter(_pages, function (val) {
                 return val.value.hasClass(PAGE_CLASS_ACTIVE);
             });
@@ -104,6 +126,7 @@
             _container.on('touchstart', function (e) {
                 e.preventDefault();
                 _touchYStart = getTouchCoordinates(e).y;
+                _touchXStart = getTouchCoordinates(e).x;
                 PageScroll.TouchEvenStatus.Element = self;
                 PageScroll.TouchEvenStatus.Status = true;
             });
@@ -114,15 +137,27 @@
             _container.on('touchmove', function (e) {
                 e.preventDefault();
                 var coord = getTouchCoordinates(e);
-                var delta = coord.y - _touchYStart;
+                var deltaY = coord.y - _touchYStart;
+                var deltaX = coord.x - _touchXStart;
 
                 if (PageScroll.TouchEvenStatus.Status == true
                     && PageScroll.TouchEvenStatus.Element.Id == self.Id
                     && _touchYStart > 0
-                    && Math.abs(delta) > TOUCH_THRESHOLD) {
-
-                    delta > 0 ? movePrevious() : moveNext();
+                    && Math.abs(deltaY) > TOUCH_THRESHOLD) {
+                    if (_options.ScrollOrientation != ScrollOrientationType.Horizontal)
+                        deltaY > 0 ? movePrevious() : moveNext();
                     _touchYStart = 0;
+                    _touchXStart = 0;
+                    PageScroll.TouchEvenStatus.Status = false;
+                }
+                if (PageScroll.TouchEvenStatus.Status == true
+                    && PageScroll.TouchEvenStatus.Element.Id == self.Id
+                    && _touchXStart > 0
+                    && Math.abs(deltaX) > TOUCH_THRESHOLD) {
+                    if (_options.ScrollOrientation == ScrollOrientationType.Horizontal)
+                        deltaX > 0 ? movePrevious() : moveNext();
+                    _touchYStart = 0;
+                    _touchXStart = 0;
                     PageScroll.TouchEvenStatus.Status = false;
                 }
             });
@@ -155,8 +190,20 @@
                 return;
 
             _isScrollAnimationInProgress = true;
-            var yPos = element.order * element.value.height();
-            var translate3d = 'translate3d(0px, ' + -yPos + 'px, 0px)';
+            var translate3d;
+            switch (options.ScrollOrientation) {
+                case ScrollOrientationType.Horizontal:
+                    var xPos = element.order * element.value.width();
+                    translate3d = 'translate3d(' + -xPos + 'px, 0px, 0px)';
+                    break;
+                case ScrollOrientationType.Vertical:
+                default:
+                    var yPos = element.order * element.value.height();
+                    translate3d = 'translate3d(0px, ' + -yPos + 'px, 0px)';
+                    break;
+            }
+
+
             _container.css(getCrossBrowserTransforms(translate3d));
             _currentPosition = element.order;
             _isScrollAnimationInProgress = false;
