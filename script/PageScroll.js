@@ -1,7 +1,7 @@
 (function (global, factory) {
     'use strict';
     if (typeof define === 'function' && define.amd) {
-        define(['jquery'], ['underscore'], function ($) {
+        define(['jquery'], function ($) {
             return factory($, global, global.document);
         });
     } else if (typeof exports === "object" && exports) {
@@ -24,6 +24,7 @@
 
     $.fn.pageScroll = function (options) {
         var _pageScroll = PageScroll(this, options);
+        return _pageScroll;
     };
 
     function PageScroll(element, options) {
@@ -38,9 +39,11 @@
         var self = {
             Id: _id,
             MoveNext: moveNext,
-            MovePrevious: movePrevious
+            MovePrevious: movePrevious,
+            SetPage: setPage
         };
         var _options = options;
+        var _pageNavigation;
 
         init(element);
 
@@ -162,6 +165,15 @@
                 }
             });
             moveToAndSetPosition(_pages[0]);
+
+            if (_options.PageNavigation == null) {
+                _pageNavigation = {
+                    MoveNext: function () {},
+                    MovePrevious: function () {}
+                }
+            } else {
+                _pageNavigation = _options.PageNavigation;
+            }
         }
 
         function getTouchCoordinates(e) {
@@ -175,12 +187,14 @@
         function moveNext() {
             if (_currentPosition < _pages.length - 1) {
                 moveToAndSetPosition(_pages[_currentPosition + 1])
+                _pageNavigation.MoveNext();
             }
         }
 
         function movePrevious() {
             if (_currentPosition > 0) {
                 moveToAndSetPosition(_pages[_currentPosition - 1])
+                _pageNavigation.MovePrevious();
             }
         }
 
@@ -218,6 +232,9 @@
                 '-webkit-transition': 'all 1000ms ease',
                 'transition': 'all 1000ms ease'
             };
+        }
+        function setPage(number){
+            moveToAndSetPosition(_pages[number]);
         }
 
         return self;

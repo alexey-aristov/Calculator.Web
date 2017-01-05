@@ -8,20 +8,36 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
     <script src="script/WeelEventListener.js"></script>
+    <script src="script/PageNavigation.js"></script>
     <script src="script/PageScroll.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#home').pageScroll({});
-            $('#screenshots').pageScroll({
-                ScrollOrientation: 'Horizontal'
+            var nav = $('#navigation').pageNavigation({});
+            var ps = $('#home').pageScroll({
+                PageNavigation: nav
             });
+            nav.AssociateScroll(ps);
+
+            var screens_nav = $('#navigation_screens').pageNavigation({});
+            var screens = $('#screenshots').pageScroll({
+                ScrollOrientation: 'Horizontal',
+                PageNavigation: screens_nav
+            });
+            screens_nav.AssociateScroll(screens);
+
         });
     </script>
 </head>
 <body>
+<div id="navigation">
+    <div class="pageNavigation-element"></div>
+    <div class="pageNavigation-element"></div>
+    <div class="pageNavigation-element"></div>
+</div>
 <div id="home">
     <div class="pageScroll-page page-white bearing_height">
         <h1 class="name-header">Calculator A</h1>
+
     </div>
     <div class="pageScroll-page page-black">
         <div id="screenshots">
@@ -35,6 +51,15 @@
                 <img class="screenshot" src="images/screen3.jpg">
             </div>
         </div>
+
+        <div class="page-centering-outer">
+            <div class="page-centering-inner" id="navigation_screens">
+                <div class="pageNavigation-element"></div>
+                <div class="pageNavigation-element"></div>
+                <div class="pageNavigation-element"></div>
+            </div>
+        </div>
+
     </div>
     <div class="pageScroll-page page-white">
         <div class="contacts"><a href="mailto:alexey0206+calculator@gmail.com">Mail me!</a></div>

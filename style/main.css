@@ -1,43 +1,48 @@
-.pageScroll-container{
+.pageScroll-container {
     position: relative;
     overflow: hidden;
     height: 100%;
     display: block;
 }
-.pageScroll-containerWrapper{
-    overflow-y:visible;
+
+.pageScroll-containerWrapper {
+    overflow-y: visible;
 }
-.pageScroll-page{
+
+.pageScroll-page {
     position: relative;
     width: 100%;
     height: 100%;
 }
-::-moz-scrolled-content{
+
+::-moz-scrolled-content {
     display: none;
 }
 
-.page-white{
+.page-white {
     background-color: white;
 }
-.page-black{
+
+.page-black {
     background-color: black;
 }
 
-.name-header{
-    font-family:PT Mono;
-    margin:0;
-    text-align:center;
+.name-header {
+    font-family: PT Mono;
+    margin: 0;
+    text-align: center;
     padding-top: 25%;
     font-size: 525%;
 }
 
-#screenshots{
+#screenshots {
     padding-top: 10%;
     padding-bottom: 10%;
-    margin:auto;
+    margin: auto;
     width: 60%;
 }
-.screenshot{
+
+.screenshot {
     display: block;
     margin: 0 auto;
     max-height: 100%;
@@ -45,10 +50,61 @@
     border: 4px solid white;
 }
 
-.contacts{
-    text-align:center;
+.contacts {
+    text-align: center;
     padding-top: 25%;
     font-size: 300%;
-    font-family:PT Mono;
+    font-family: PT Mono;
 }
 
+.pageNavigation-element {
+    width: 16px;
+    height: 16px;
+    background-color: transparent;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 3px #d4af37;
+    margin-bottom: 10px;
+    -webkit-transition: -webkit-transform 0.3s ease, background-color 0.3s ease;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.pageNavigation-element-active {
+    transform: scale(1.4);
+    background-color: #d4af37;
+}
+
+#navigation {
+    position: fixed;
+    top: 50%;
+    right: 10px;
+    z-index: 1000;
+}
+
+#navigation_screens {
+    position: relative;
+    bottom: 26px;
+    z-index: 1000;
+}
+
+#navigation_screens .pageNavigation-element-active {
+    background-color: white;
+}
+
+#navigation_screens .pageNavigation-element {
+    float: left;
+    margin-left: 10px;
+    box-shadow: inset 0 0 0 3px white;
+
+}
+
+.page-centering-outer {
+    float: right;
+    right: 50%;
+    position: relative;
+}
+
+.page-centering-inner {
+    float: right;
+    right: -50%;
+    position: relative;
+}
