@@ -66,6 +66,7 @@
     margin-bottom: 10px;
     -webkit-transition: -webkit-transform 0.3s ease, background-color 0.3s ease;
     transition: transform 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
 }
 
 .pageNavigation-element-active {

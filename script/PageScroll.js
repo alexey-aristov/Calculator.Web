@@ -103,14 +103,16 @@
                 PageScroll.TouchEvenStatus = {Status: false, Element: self};
             }
 
-            _container.on('mouseenter', function (e) {
-                e.preventDefault();
-                PageScroll.ScrollElementsStack.push(self);
-            });
-            _container.on('mouseleave', function (e) {
-                e.preventDefault();
-                PageScroll.ScrollElementsStack.pop();
-            });
+            _container.hover(function () {
+                    PageScroll.ScrollElementsStack.push(self);
+                }, function () {
+
+                    if (PageScroll.ScrollElementsStack.length > 1) {
+                        PageScroll.ScrollElementsStack.pop();
+                    }
+                }
+            );
+
             _container.on('touchstart', function (e) {
                 e.preventDefault();
                 _touchYStart = getTouchCoordinates(e).y;
