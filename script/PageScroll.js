@@ -114,18 +114,18 @@
             );
 
             _container.on('touchstart', function (e) {
-                e.preventDefault();
+                //e.preventDefault();
                 _touchYStart = getTouchCoordinates(e).y;
                 _touchXStart = getTouchCoordinates(e).x;
                 PageScroll.TouchEvenStatus.Element = self;
                 PageScroll.TouchEvenStatus.Status = true;
             });
             _container.on('touchend', function (e) {
-                e.preventDefault();
+               // e.preventDefault();
                 PageScroll.TouchEvenStatus.Status = false;
             });
             _container.on('touchmove', function (e) {
-                e.preventDefault();
+                //e.preventDefault();
                 var coord = getTouchCoordinates(e);
                 var deltaY = coord.y - _touchYStart;
                 var deltaX = coord.x - _touchXStart;
