@@ -134,6 +134,7 @@
                     && PageScroll.TouchEvenStatus.Element.Id == self.Id
                     && _touchYStart > 0
                     && Math.abs(deltaY) > TOUCH_THRESHOLD) {
+                    e.preventDefault();
                     if (_options.ScrollOrientation != ScrollOrientationType.Horizontal)
                         deltaY > 0 ? movePrevious() : moveNext();
                     _touchYStart = 0;
@@ -144,6 +145,7 @@
                     && PageScroll.TouchEvenStatus.Element.Id == self.Id
                     && _touchXStart > 0
                     && Math.abs(deltaX) > TOUCH_THRESHOLD) {
+                    e.preventDefault();
                     if (_options.ScrollOrientation == ScrollOrientationType.Horizontal)
                         deltaX > 0 ? movePrevious() : moveNext();
                     _touchYStart = 0;
