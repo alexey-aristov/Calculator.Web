@@ -130,6 +130,10 @@
                 var deltaY = coord.y - _touchYStart;
                 var deltaX = coord.x - _touchXStart;
 
+                if (_currentPosition!=0)
+                {
+                    e.preventDefault();
+                }
                 if (PageScroll.TouchEvenStatus.Status == true
                     && PageScroll.TouchEvenStatus.Element.Id == self.Id
                     && _touchYStart > 0
