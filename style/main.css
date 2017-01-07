@@ -52,7 +52,6 @@
 
 .contacts {
     text-align: center;
-    padding-top: 25%;
     font-size: 300%;
     font-family: PT Mono;
 }
@@ -108,4 +107,28 @@
     float: right;
     right: -50%;
     position: relative;
+}
+
+.page-height-half {
+    height: 50%;
+}
+
+.downloads {
+    margin: auto;
+    width: 50%;
+}
+.downloads a{
+    margin: auto;
+    display: block;
+    padding-top: 20%;
+}
+
+.downloads img{
+    margin: auto;
+    max-width: 50%;
+    max-height: 50%;
+    display: block;
+}
+.contacts a{
+    padding-top: 70%;
 }
