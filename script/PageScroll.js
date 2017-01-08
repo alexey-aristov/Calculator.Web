@@ -83,6 +83,7 @@
             });
 
             if (typeof(PageScroll.GlobalWeelListenerSet) === 'undefined') {
+                PageScroll.ScrollElementsStack.push(self);
                 PageScroll.GlobalWeelListenerSet = window.addWheelListener(Body[0], function (e) {
                     e.preventDefault();
                     var last = _.last(PageScroll.ScrollElementsStack);
