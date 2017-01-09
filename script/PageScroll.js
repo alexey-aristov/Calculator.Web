@@ -82,6 +82,14 @@
                 }
             });
 
+
+            if (typeof(PageScroll.ScrollElementsStack) === 'undefined') {
+                PageScroll.ScrollElementsStack = new Array();
+            }
+            if (typeof(PageScroll.TouchEvenStatus) === 'undefined') {
+                PageScroll.TouchEvenStatus = {Status: false, Element: self};
+            }
+
             if (typeof(PageScroll.GlobalWeelListenerSet) === 'undefined') {
                 PageScroll.ScrollElementsStack.push(self);
                 PageScroll.GlobalWeelListenerSet = window.addWheelListener(Body[0], function (e) {
@@ -96,12 +104,6 @@
                         last.MovePrevious();
                     }
                 });
-            }
-            if (typeof(PageScroll.ScrollElementsStack) === 'undefined') {
-                PageScroll.ScrollElementsStack = new Array();
-            }
-            if (typeof(PageScroll.TouchEvenStatus) === 'undefined') {
-                PageScroll.TouchEvenStatus = {Status: false, Element: self};
             }
 
             _container.hover(function () {
