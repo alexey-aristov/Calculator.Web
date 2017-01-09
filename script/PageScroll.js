@@ -85,13 +85,14 @@
 
             if (typeof(PageScroll.ScrollElementsStack) === 'undefined') {
                 PageScroll.ScrollElementsStack = new Array();
+                PageScroll.ScrollElementsStack.push(self);
             }
             if (typeof(PageScroll.TouchEvenStatus) === 'undefined') {
                 PageScroll.TouchEvenStatus = {Status: false, Element: self};
             }
 
             if (typeof(PageScroll.GlobalWeelListenerSet) === 'undefined') {
-                PageScroll.ScrollElementsStack.push(self);
+
                 PageScroll.GlobalWeelListenerSet = window.addWheelListener(Body[0], function (e) {
                     e.preventDefault();
                     var last = _.last(PageScroll.ScrollElementsStack);
