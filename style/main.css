@@ -131,3 +131,9 @@
     max-height: 50%;
     display: block;
 }
+
+#liveinternet {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+}
